@@ -1,6 +1,8 @@
 import express from "express";
+import cors from "cors";
 
 const app = express();
+app.use(cors());
 
 const topics: Record<string, ((data: string) => void)[]> = {};
 
@@ -12,8 +14,6 @@ app.get("/sub/:topic", (req, res) => {
 
   const subFunc = async (data: string) => {
     topics[topic] = topics[topic].filter((f) => f !== subFunc);
-
-    await new Promise((resolve) => setTimeout(resolve, 1000));
 
     res.json({
       topic,
